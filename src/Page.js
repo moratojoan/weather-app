@@ -1,14 +1,14 @@
 import { EuiPageTemplate } from '@elastic/eui';
 
 
-export default function Page({ searcher, content }) {
+export default function Page({ auth, searcher, content }) {
     return (
         <EuiPageTemplate
             restrictWidth="75%"
             pageHeader={{
                 iconType: 'logoElastic',
                 pageTitle: 'IOMED Weather',
-                rightSideItems: [searcher],
+                rightSideItems: [auth, searcher],
                 alignItems: "center"
             }}>
             {content}

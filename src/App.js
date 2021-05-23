@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import Page from './Page';
 import Searcher from './Searcher';
+import Auth from './Auth';
 import Cards from './Cards';
 
 import { getMunicipioWeather } from './getMunicipioWeather';
@@ -29,6 +30,7 @@ export default function App() {
 
     return (
         <Page
+            auth={<Auth />}
             searcher={<Searcher onSelect={onSelectMunicipio} />}
             content={
                 <Cards
