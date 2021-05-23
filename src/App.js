@@ -6,8 +6,13 @@ import Cards from './Cards';
 
 import { getMunicipioWeather } from './getMunicipioWeather';
 
+import { useFirebaseApp } from 'reactfire';
+
 
 export default function App() {
+    const firebase = useFirebaseApp();
+    console.log(firebase);
+
     const [municipiosWeatherInfo, setMunicipiosWeatherInfo] = useState([]);
 
     const onSelectMunicipio = async ([{value}]) => {

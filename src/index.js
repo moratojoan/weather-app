@@ -5,10 +5,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { FirebaseAppProvider } from 'reactfire';
+import { firebaseConfig } from './firebaseConfig';
+
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+            <App />
+        </FirebaseAppProvider>
     </React.StrictMode>,
     document.getElementById('root')
 );
