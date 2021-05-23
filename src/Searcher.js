@@ -16,7 +16,6 @@ export default function Searcher({ onSelect }) {
 
         getMunicipios()
         .then(municipios => {
-            console.log(municipios);
             setOptions(municipios);
             setIsLoading(false);
         });
