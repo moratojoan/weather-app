@@ -16,49 +16,69 @@ import {
     EuiFieldPassword
 } from '@elastic/eui';
 
+import 'firebase/auth';
+import {
+    useFirebaseApp,
+    useUser
+} from 'reactfire';
+
 
 export default function Auth() {
+    const firebase = useFirebaseApp();
+    const user = useUser();
+    console.log(user)
     const [modalParams, setModalParams] = useState(null);
 
     const onLoginClick = () => {
         setModalParams({
             title: "Log in",
-            onSubmit: onLogIn
+            onSubmit: login
         });
     }
     const onSigninClick = () => {
         setModalParams({
             title: "Sign in",
-            onSubmit: onSignIn
+            onSubmit: signin
         });
     }
-
     const onCloseModal = () => setModalParams(null);
-    const onLogIn = ({email, password}) => {
-        console.log("log in", {email, password});
-        onCloseModal();
+
+    const login = async ({email, password}) => {
+        await firebase.auth().signInWithEmailAndPassword(email, password);
     }
-    const onSignIn = ({email, password}) => {
-        console.log("sign in", {email, password});
-        onCloseModal();
+    const signin = async ({email, password}) => {
+        await firebase.auth().createUserWithEmailAndPassword(email, password);
+    }
+    const logout = async () => {
+        await firebase.auth().signOut();
     }
 
     return (
         <>
-            <EuiFlexGrid>
-                <EuiFlexItem>
-                    <EuiButton onClick={onLoginClick}>Log in</EuiButton>
-                </EuiFlexItem>
-                <EuiFlexItem>
-                    <EuiButton onClick={onSigninClick}>Sign up</EuiButton>
-                </EuiFlexItem>
-            </EuiFlexGrid>
-            {modalParams && (
-                <AuthModalForm
-                    title={modalParams.title}  
-                    onClose={onCloseModal}
-                    onSubmit={modalParams.onSubmit}
-                />
+            {user.data ? (
+                <EuiFlexGrid>
+                    <EuiFlexItem>
+                        <EuiButton onClick={logout}>Log out: {user.data.email}</EuiButton>
+                    </EuiFlexItem>
+                </EuiFlexGrid>
+            ) : (
+                <>
+                    <EuiFlexGrid>
+                        <EuiFlexItem>
+                            <EuiButton onClick={onLoginClick}>Log in</EuiButton>
+                        </EuiFlexItem>
+                        <EuiFlexItem>
+                            <EuiButton onClick={onSigninClick}>Sign up</EuiButton>
+                        </EuiFlexItem>
+                    </EuiFlexGrid>
+                    {modalParams && (
+                        <AuthModalForm
+                            title={modalParams.title}  
+                            onClose={onCloseModal}
+                            onSubmit={modalParams.onSubmit}
+                        />
+                    )}
+                </>
             )}
         </>
     )
@@ -69,9 +89,10 @@ function AuthModalForm({title, onClose, onSubmit}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const onSubmitForm = event => {
+    const onSubmitForm = async event => {
         event.preventDefault();
-        onSubmit({email, password});
+        await onSubmit({email, password});
+        onClose();
     }
 
     return (
