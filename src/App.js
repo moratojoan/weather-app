@@ -2,6 +2,8 @@ import Page from './Page';
 import Searcher from './Searcher';
 import Cards from './Cards';
 
+import { getMunicipioWeather } from './getMunicipioWeather';
+
 
 const municipiosWeatherInfo = [
     {
@@ -37,9 +39,15 @@ const municipiosWeatherInfo = [
 ];
 
 export default function App() {
+    const onSelectMunicipio = async ([{value}]) => {
+        console.log(value);
+        const municipioWeather = await getMunicipioWeather(value)
+        console.log(municipioWeather);
+    }
+
     return (
         <Page
-            searcher={<Searcher />}
+            searcher={<Searcher onSelect={onSelectMunicipio} />}
             content={
                 <Cards
                     municipiosWeatherInfo={municipiosWeatherInfo}

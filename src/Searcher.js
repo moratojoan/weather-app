@@ -1,16 +1,13 @@
 import { useState, useEffect } from 'react';
 
-import {
-    EuiComboBox,
-    EuiHighlight
-} from '@elastic/eui';
+import { EuiComboBox } from '@elastic/eui';
 
 import { getMunicipios } from './getMunicipios';
 
 import './Searcher.css';
 
 
-export default function Searcher() {
+export default function Searcher({ onSelect }) {
     const [options, setOptions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -32,6 +29,8 @@ export default function Searcher() {
                 isLoading={isLoading}
                 options={options}
                 sortMatchesBy="startsWith"
+                onChange={onSelect}
+                singleSelection
             />
         </div>
     );

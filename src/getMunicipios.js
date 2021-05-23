@@ -37,5 +37,5 @@ function transformMunicipio(municipio) {
             id: getId(municipio),
             codProv: municipio.CODPROV,
         }
-    }
+    };
 }
