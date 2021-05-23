@@ -1,4 +1,5 @@
 import Page from './Page';
+import Searcher from './Searcher';
 import Cards from './Cards';
 
 
@@ -38,6 +39,7 @@ const municipiosWeatherInfo = [
 export default function App() {
     return (
         <Page
+            searcher={<Searcher />}
             content={
                 <Cards
                     municipiosWeatherInfo={municipiosWeatherInfo}
