@@ -26,7 +26,6 @@ import {
 export default function Auth() {
     const firebase = useFirebaseApp();
     const user = useUser();
-    console.log(user)
     const [modalParams, setModalParams] = useState(null);
 
     const onLoginClick = () => {

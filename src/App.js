@@ -5,22 +5,19 @@ import Searcher from './Searcher';
 import Auth from './Auth';
 import Cards from './Cards';
 
-import { getMunicipioWeather } from './getMunicipioWeather';
-
 
 export default function App() {
-    const [municipiosWeatherInfo, setMunicipiosWeatherInfo] = useState([]);
+    const [municipiosSelected, setMunicipiosSelected] = useState([]);
 
     const onSelectMunicipio = async ([{value}]) => {
-        const municipioWeather = await getMunicipioWeather(value);
-        setMunicipiosWeatherInfo([
-            ...municipiosWeatherInfo,
-            municipioWeather
+        setMunicipiosSelected([
+            ...municipiosSelected,
+            value
         ]);
     }
 
-    const onDeleteCard = id => {
-        setMunicipiosWeatherInfo(municipiosWeatherInfo.filter(m => m.id !== id));
+    const onDeleteCard = municipioToDelteId => {
+        setMunicipiosSelected(municipiosSelected.filter(m => m.id !== municipioToDelteId))
     }
 
     return (
@@ -29,7 +26,7 @@ export default function App() {
             searcher={<Searcher onSelect={onSelectMunicipio} />}
             content={
                 <Cards
-                    municipiosWeatherInfo={municipiosWeatherInfo}
+                    municipiosSelected={municipiosSelected}
                     onDeleteCard={onDeleteCard}
                 />
             }

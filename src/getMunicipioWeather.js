@@ -17,10 +17,7 @@ export function getMunicipioWeather({id, codeProv}) {
 }
 
 function transformMunicipioWeather(data) {
-    const getId = ({CODIGOINE}) => CODIGOINE.slice(0, 5);
     return {
-        id: getId(data.municipio),
-        name: data.municipio.NOMBRE,
         actualTemperature: data.temperatura_actual,
         rain: data.lluvia
     };

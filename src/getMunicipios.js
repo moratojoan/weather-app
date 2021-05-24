@@ -36,6 +36,7 @@ function transformMunicipio(municipio) {
         value: {
             id: getId(municipio),
             codProv: municipio.CODPROV,
+            name: decodeApostroph(municipio.NOMBRE)
         }
     };
 }

@@ -1,45 +1,34 @@
-import {
-    EuiCard,
-    EuiStat,
-    EuiFlexGroup,
-    EuiFlexItem,
-    EuiButtonIcon
-  } from '@elastic/eui';
+import { useEffect, useState } from 'react';
+
+import CardTemplate from './CardTemplate';
+
+import { getMunicipioWeather } from './getMunicipioWeather';
+
 
 export default function Card({
-    name,
-    actualTemperature,
-    rain,
     onDelete,
+    name,
+    id,
+    codeProv
 }) {
+    const [weather, setWeather] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        setIsLoading(true);
+        getMunicipioWeather({id, codeProv})
+        .then(weather => {
+            setWeather(weather);
+            setIsLoading(false);
+        })
+    }, [id, codeProv]);
+
     return (
-        <EuiCard
+        <CardTemplate
             title={name}
-            footer={
-                <EuiFlexGroup justifyContent="flexEnd">
-                    <EuiFlexItem grow={false}>
-                        <EuiButtonIcon
-                            display="base"
-                            iconType="trash"
-                            aria-label="Delete"
-                            color="danger"
-                            onClick={onDelete}
-                        />
-                    </EuiFlexItem>
-                </EuiFlexGroup>
-            }
-        >
-            <EuiStat
-                title={`${actualTemperature} ºC`}
-                description="Temperatura actual:"
-                textAlign="center"
-            />
-            <EuiStat
-                title={`${rain} %`}
-                description="Lluvia:"
-                titleSize="m"
-                textAlign="center"
-            />
-        </EuiCard>
+            isLoading={isLoading}
+            weather={weather}
+            onDelete={onDelete}
+        />
     );
 }
