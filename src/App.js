@@ -18,7 +18,12 @@ export default function App() {
     const firebase = useFirebaseApp();
     const { data: user } = useUser();
 
-    const [municipiosSelected, setMunicipiosSelected] = useState([]);
+    const defaultMunicipiosSelected = [
+        {id: "08019", codProv: "08", name: "Barcelona"},
+        {id: "28079", codProv: "28", name: "Madrid"},
+        {id: "41091", codProv: "41", name: "Sevilla"}
+    ]
+    const [municipiosSelected, setMunicipiosSelected] = useState(defaultMunicipiosSelected);
 
     useEffect(() => {
         if(!user) return;
