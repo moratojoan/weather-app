@@ -18,7 +18,7 @@ export function getMunicipioWeather({id, codeProv}) {
 
 function transformMunicipioWeather(data) {
     return {
-        actualTemperature: data.temperatura_actual,
-        rain: data.lluvia
+        actualTemperature: `${data.temperatura_actual} ºC`,
+        rain: isNaN(Number(data.lluvia)) ? data.lluvia : `${data.lluvia} %`
     };
 }

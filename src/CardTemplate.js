@@ -33,12 +33,12 @@ export default function CardTemplate({ title, isLoading, weather, onDelete }) {
             ) : (
                 <>
                     <EuiStat
-                        title={`${weather.actualTemperature} ºC`}
+                        title={weather.actualTemperature}
                         description="Temperatura actual:"
                         textAlign="center"
                     />
                     <EuiStat
-                        title={`${weather.rain} %`}
+                        title={weather.rain}
                         description="Lluvia:"
                         titleSize="m"
                         textAlign="center"
