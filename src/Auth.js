@@ -22,6 +22,8 @@ import {
     useUser
 } from 'reactfire';
 
+import * as authServices from './firebase/auth';
+
 
 export default function Auth() {
     const firebase = useFirebaseApp();
@@ -43,12 +45,12 @@ export default function Auth() {
     const onCloseModal = () => setModalParams(null);
 
     const login = ({email, password}) => {
-        firebase.auth().signInWithEmailAndPassword(email, password);
+        authServices.login(firebase.auth(), {email, password})
     }
     const signin = ({email, password}) => {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        authServices.signin(firebase.auth(), {email, password})
     }
-    const logout = () => firebase.auth().signOut();
+    const logout = () => authServices.logout(firebase.auth());
 
     return (
         <>
