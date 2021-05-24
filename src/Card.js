@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import CardTemplate from './CardTemplate';
 
-import { getMunicipioWeather } from './getMunicipioWeather';
+import { getMunicipioWeather } from './services/getMunicipioWeather';
 
 
 export default function Card({

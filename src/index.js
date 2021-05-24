@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { FirebaseAppProvider } from 'reactfire';
-import { firebaseConfig } from './firebaseConfig';
+import { firebaseConfig } from './firebase/firebaseConfig';
 
 
 ReactDOM.render(

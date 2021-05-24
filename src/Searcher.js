@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { EuiComboBox } from '@elastic/eui';
 
-import { getMunicipios } from './getMunicipios';
+import { getMunicipios } from './services/getMunicipios';
 
 import './Searcher.css';
 

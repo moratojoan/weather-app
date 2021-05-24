@@ -11,7 +11,7 @@ import {
     useUser
 } from 'reactfire';
 
-import * as databaseServices from './database';
+import * as databaseServices from './firebase/database';
 
 
 export default function App() {
