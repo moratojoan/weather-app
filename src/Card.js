@@ -9,19 +9,19 @@ export default function Card({
     onDelete,
     name,
     id,
-    codeProv
+    codProv
 }) {
     const [weather, setWeather] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
-        getMunicipioWeather({id, codeProv})
+        getMunicipioWeather({id, codProv})
         .then(weather => {
             setWeather(weather);
             setIsLoading(false);
         })
-    }, [id, codeProv]);
+    }, [id, codProv]);
 
     return (
         <CardTemplate
