@@ -11,62 +11,38 @@ import {
     useUser
 } from 'reactfire';
 
+import * as databaseServices from './database';
 
-function reformatMunicipiosFromDB(municipiosFromDB) {
-    return  Object.entries(municipiosFromDB).map(([id, {name, codProv}]) => ({
-        id,
-        name,
-        codProv
-    }));
-}
 
 export default function App() {
     const firebase = useFirebaseApp();
-    const user = useUser();
+    const { data: user } = useUser();
+
     const [municipiosSelected, setMunicipiosSelected] = useState([]);
 
     useEffect(() => {
-        if(!user.data) return;
+        if(!user) return;
 
-        firebase.database()
-        .ref(`users/${user.data.uid}/municipios`)
-        .get()
-        .then(municipiosFromDB => {
-            if(municipiosFromDB.exists()) {
-                const municipiosReformated = reformatMunicipiosFromDB(municipiosFromDB.val());
-                setMunicipiosSelected(municipiosReformated);
-            }
-        });
-    }, [firebase, user.data]);
+        databaseServices.getMunicipiosFromDB(firebase.database(), user.uid)
+        .then(setMunicipiosSelected);
 
-    const getMunicipioRefFromDB = municipioId => {
-        return firebase.database().ref(`users/${user.data.uid}/municipios/${municipioId}`);
-    }
-    const setMuniciposSelectedToDB = value => {
-        if(!user.data) return;
-
-        getMunicipioRefFromDB(value.id).set({
-            name: value.name,
-            codProv: value.codProv
-        });
-    }
-    const removeMunicipioFromDB = municipioToDelteId => {
-        if(!user.data) return;
-
-        getMunicipioRefFromDB(municipioToDelteId).remove();
-    }
+    }, [firebase, user]);
 
     const onSelectMunicipio = async ([{value}]) => {
-        setMuniciposSelectedToDB(value);
         setMunicipiosSelected([
             ...municipiosSelected,
             value
         ]);
+
+        if(!user) return;
+        databaseServices.setMunicipioToDB(firebase.database(), user.uid, value);
     }
 
     const onDeleteCard = municipioToDelteId => {
-        removeMunicipioFromDB(municipioToDelteId);
-        setMunicipiosSelected(municipiosSelected.filter(m => m.id !== municipioToDelteId))
+        setMunicipiosSelected(municipiosSelected.filter(m => m.id !== municipioToDelteId));
+
+        if(!user) return;
+        databaseServices.removeMunicipioFromDB(firebase.database(), user.uid, municipioToDelteId);
     }
 
     return (
