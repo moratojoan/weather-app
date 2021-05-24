@@ -42,15 +42,13 @@ export default function Auth() {
     }
     const onCloseModal = () => setModalParams(null);
 
-    const login = async ({email, password}) => {
-        await firebase.auth().signInWithEmailAndPassword(email, password);
+    const login = ({email, password}) => {
+        firebase.auth().signInWithEmailAndPassword(email, password);
     }
-    const signin = async ({email, password}) => {
-        await firebase.auth().createUserWithEmailAndPassword(email, password);
+    const signin = ({email, password}) => {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
     }
-    const logout = async () => {
-        await firebase.auth().signOut();
-    }
+    const logout = () => firebase.auth().signOut();
 
     return (
         <>
