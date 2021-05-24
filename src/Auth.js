@@ -25,7 +25,7 @@ import {
 
 export default function Auth() {
     const firebase = useFirebaseApp();
-    const user = useUser();
+    const { data: user } = useUser();
     const [modalParams, setModalParams] = useState(null);
 
     const onLoginClick = () => {
@@ -52,10 +52,10 @@ export default function Auth() {
 
     return (
         <>
-            {user.data ? (
+            {user ? (
                 <EuiFlexGrid>
                     <EuiFlexItem>
-                        <EuiButton onClick={logout}>Log out: {user.data.email}</EuiButton>
+                        <EuiButton onClick={logout}>Log out: {user.email}</EuiButton>
                     </EuiFlexItem>
                 </EuiFlexGrid>
             ) : (
