@@ -1,5 +1,5 @@
 {
   "projects": {
-    "default": "iomed-weather"
+    "default": "weather-app"
   }
 }
