@@ -7,7 +7,7 @@ export default function Page({ auth, searcher, content }) {
             restrictWidth="75%"
             pageHeader={{
                 iconType: 'logoElastic',
-                pageTitle: 'IOMED Weather',
+                pageTitle: 'Weather App',
                 rightSideItems: [auth, searcher],
                 alignItems: "center"
             }}>
