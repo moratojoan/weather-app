@@ -10,7 +10,6 @@ import {
 
 
 export default function CardTemplate({ title, isLoading, weather, onDelete }) {
-    if(!weather && !isLoading) return null;
     return (
         <EuiCard
             title={title}

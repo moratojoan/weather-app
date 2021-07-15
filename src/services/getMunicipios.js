@@ -4,16 +4,30 @@
 export function getMunicipios() {
     return new Promise(resolve => {
         fetch("https://www.el-tiempo.net/api/json/v2/municipios")
-        .then(response => {
-            if(!response.ok) throw new Error(response.status);
-            return response.json();
-        })
-        .then(municipios => {
-            const municipiosTransformed = transformMunicipios(municipios);
-            resolve(municipiosTransformed);
-        })
-        .catch(error => console.log(error));
+            .then(response => {
+                if (!response.ok) throw new ApiResponseError(response.status);
+                return response.json();
+            })
+            .then(municipios => {
+                const municipiosTransformed = transformMunicipios(municipios);
+                resolve(municipiosTransformed);
+            })
+            .catch(error => {
+                throw new NetworkError(error.msg)
+            });
     });
+}
+
+class NetworkError extends Error {
+    constructor(msg) {
+        this.msg = msg;
+    }
+}
+
+class ApiResponseError extends Error {
+    constructor(status) {
+        if (status === 404) this.msg = 'Not found'
+    }
 }
 
 function transformMunicipios(municipios) {
@@ -26,11 +40,22 @@ function decodeApostroph(string) {
     return stringDecoded;
 }
 
-function transformMunicipio(municipio) {
-    const getId = ({CODIGOINE}) => CODIGOINE.slice(0, 5);
-    const getLabel = ({NOMBRE, NOMBRE_PROVINCIA}) =>
-        `${decodeApostroph(NOMBRE)} - ${decodeApostroph(NOMBRE_PROVINCIA)}`;
+const getLabel = ({ NOMBRE, NOMBRE_PROVINCIA }) =>
+    `${decodeApostroph(NOMBRE)} - ${decodeApostroph(NOMBRE_PROVINCIA)}`;
 
+const getId = ({ CODIGOINE }) => CODIGOINE.slice(0, 5);
+
+/**
+ * {
+ *  name: '',
+ *  province: '',
+ *  codeProvince: '',
+ *  INEcode: ''
+ * }
+ * @param {*} municipio 
+ * @returns 
+ */
+function transformMunicipio(municipio) {
     return {
         label: getLabel(municipio),
         value: {
